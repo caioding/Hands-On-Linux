@@ -1,4 +1,4 @@
-#define LED_PIN 2;
+#define LED_PIN 2
 
 int i = 0;
 
@@ -9,12 +9,12 @@ void setup(){
 void loop(){
     if(i < 5){
         i++;
-        digialWrite(LED_PIN, LOW);
+        digitalWrite(LED_PIN, LOW);
         delay(2000);
-        digialWrite(LED_PIN, HIGH);
+        digitalWrite(LED_PIN, HIGH);
         delay(2000);
 
     }
-    digialWrite(LED_PIN, LOW);
+    digitalWrite(LED_PIN, LOW);
 
 }
