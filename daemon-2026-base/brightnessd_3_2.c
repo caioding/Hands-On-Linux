@@ -32,38 +32,36 @@ static int __attribute__((unused)) clamp(int value, int min, int max)
 // Função para ler um número inteiro de um ficheiro
 static int read_int_file(const char *path, int *value)
 {
-    // PASSO 1: Abre o ficheiro no modo de leitura ("r")
+    // TASK 3.2: abra path para leitura e leia um numero inteiro.
+    // Retorne 0 em caso de sucesso ou um codigo negativo em caso de erro.
     FILE *file = fopen(path, "r");
     if (file == NULL) {
-        return -ENOENT; // Retorna erro se não encontrar o ficheiro
+        return -EIO;
     }
-
-    // PASSO 2: Lê um número inteiro ("%d") e guarda no endereço de 'value'
+    
     if (fscanf(file, "%d", value) != 1) {
         fclose(file);
-        return -EIO; // Retorna erro de Entrada/Saída se falhar a leitura
+        return -EIO;
     }
-
-    // PASSO 3: Fecha o ficheiro
+    
     fclose(file);
-    return 0; // Retorna 0 indicando sucesso
+    return 0;
 }
 
 // Função que converte o valor do LDR para o percentual de brilho
 static int ldr_to_percent(int ldr)
 {
-    // PASSO 1: Limita o valor lido entre 0 e 100
-    int percent = clamp(ldr, 0, 100);
+    // TASK 3.2: limite o LDR para 0-100 e aplique um brilho minimo.
+    //(void)ldr;
 
-    // PASSO 2: Aplica a regra do brilho mínimo para evitar ecrã apagado
-    if (percent < MIN_PERCENT) {
-        percent = MIN_PERCENT;
+    if (MIN_PERCENT <= ldr && ldr <= 100) {
+        return ldr;
+    } else if (ldr <= MIN_PERCENT) {
+        return MIN_PERCENT;
     }
-
-    return percent;
+    return MIN_PERCENT;
 }
 
-// Função para pausar a execução em milissegundos
 static void sleep_ms(int milliseconds)
 {
     struct timespec request;
